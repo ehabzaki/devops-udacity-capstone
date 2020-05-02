@@ -1,13 +1,12 @@
 pipeline{ agent any
   stages {
-    stage('build'){
+    stage('Upload to AWS.'){
       steps{
-        sh 'echo "hello world"'
-        sh '''
-        echo "multiline shell steps works too"
-        ls 
-        '''
-
+        withAWS(credentials: 'aws-static', region: 'us-east-2') {
+        //sh 'aws iam get-user'
+        s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file:'index.html', bucket:'udagram-ehab', path:'index.html')
+        }
+     
             }
         }
    }
