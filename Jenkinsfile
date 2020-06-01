@@ -5,6 +5,10 @@ pipeline{ agent any
         sh 'tidy -q -e *.html'
       }
     }
-
+    stage('Build image'){
+      steps{
+        sh 'docker build -t my-app .'
+      }
+    }
   }
 }
