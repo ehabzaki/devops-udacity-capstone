@@ -30,4 +30,5 @@ spec:
       - name: capston
         image: docker.io/ehab123/capston:latest
         ports:
-        - containerPort: 8080
+        - containerPort: 80
+        
