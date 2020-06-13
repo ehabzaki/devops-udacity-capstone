@@ -29,6 +29,7 @@ pipeline{ agent any
         steps {
                   script{
                     withAWS(credentials: 'AWS_cred', region: 'us-east-2') {
+                      sh "aws sts get-caller-identity"
                             sh " aws eks --region us-east-2 update-kubeconfig --name Capston-cluster"
                             sh 'kubectl get nodes'
                         
