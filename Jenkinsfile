@@ -5,10 +5,31 @@ pipeline{ agent any
         sh 'tidy -q -e *.html'
       }
     }
-    stage('Build image'){
-      steps{
-        sh 'docker build -t my-app .'
-      }
+
+    stage('Build image') {
+
+        app = docker.build("capston")
     }
+
+    stage('Push image') {
+        docker.withRegistry('docker.io', '	docker_registry_cred') {
+            app.push("${env.BUILD_NUMBER}")
+            app.push("latest")
+        }
+    }
+
+    stage('Deploying to EKS') {
+        steps {
+                dir('Kubernetes') {
+                    withAWS(credentials: 'AWS_cred', region: 'us-east-2') {
+                            sh " aws eks --region us-east-2 update-kubeconfig --name Capston-cluster"
+                            sh 'kubectl get nodes'
+                        }
+                    }
+            }
+        }
+
+
+
   }
 }
