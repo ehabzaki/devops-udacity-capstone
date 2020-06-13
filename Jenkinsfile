@@ -7,24 +7,26 @@ pipeline{ agent any
     }
 
     stage('Build image') {
-
+      steps{
         app = docker.build("capston")
+      }
     }
 
     stage('Push image') {
+       steps{
         docker.withRegistry('docker.io', '	docker_registry_cred') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
+       }
     }
 
     stage('Deploying to EKS') {
         steps {
-                dir('Kubernetes') {
                     withAWS(credentials: 'AWS_cred', region: 'us-east-2') {
                             sh " aws eks --region us-east-2 update-kubeconfig --name Capston-cluster"
                             sh 'kubectl get nodes'
-                        }
+                        
                     }
             }
         }
