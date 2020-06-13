@@ -9,7 +9,7 @@ pipeline{ agent any
     stage('Build image') {
       steps{
         script{
-        app = docker.build("capston")
+        app = docker.build("ehab123/capston")
         }
       }
     }
