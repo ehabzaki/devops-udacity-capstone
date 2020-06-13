@@ -17,7 +17,7 @@ pipeline{ agent any
     stage('Push image') {
        steps{
         script{
-        docker.withRegistry('docker.io', '	docker_registry_cred') {
+        docker.withRegistry('https://hub.docker.com/', '	docker_registry_cred') {
             app.push("${env.BUILD_NUMBER}")
             app.push("latest")
         }
