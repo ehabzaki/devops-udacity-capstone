@@ -30,7 +30,7 @@ pipeline{ agent any
                   script{
                     withAWS(credentials: 'AWS_cred', region: 'us-east-2') {
                             sh " aws eks --region us-east-2 update-kubeconfig --name Capston-cluster"
-                            sh 'kubectl set image deployments/capston  capston=docker.io/ehab123/capston:${env.BUILD_NUMBER}'
+                            sh 'kubectl set image deployments/capston  capston=docker.io/ehab123/capston:${env.BUILD_NUMBER} --record'
                         
                     }
             }
