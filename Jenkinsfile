@@ -25,13 +25,12 @@ pipeline{ agent any
        }
     }
 
-    stage('Deploying to EKS') {
+    stage('Deploy') {
         steps {
                   script{
                     withAWS(credentials: 'AWS_cred', region: 'us-east-2') {
-                      sh "aws sts get-caller-identity"
                             sh " aws eks --region us-east-2 update-kubeconfig --name Capston-cluster"
-                            sh 'kubectl apply -f deploy.yml'
+                            sh 'kubectl set image deployments/capston  docker.io/ehab234/capston:${env.BUILD_NUMBER}'
                         
                     }
             }
