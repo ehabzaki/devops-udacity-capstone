@@ -1,1 +1,1 @@
-# static
+# Capston Devops project Udacity 
